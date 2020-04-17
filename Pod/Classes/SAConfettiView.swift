@@ -50,7 +50,7 @@ public class SAConfettiView: UIView {
         emitter = CAEmitterLayer()
 
         emitter.emitterPosition = CGPoint(x: frame.size.width / 2.0, y: 0)
-        emitter.emitterShape = kCAEmitterLayerLine
+        emitter.emitterShape = CAEmitterLayerEmitterShape.line
         emitter.emitterSize = CGSize(width: frame.size.width, height: 1)
 
         var cells = [CAEmitterCell]()
@@ -88,12 +88,10 @@ public class SAConfettiView: UIView {
         let path = Bundle(for: SAConfettiView.self).path(forResource: "SAConfettiView", ofType: "bundle")
         let bundle = Bundle(path: path!)
         let imagePath = bundle?.path(forResource: fileName, ofType: "png")
-        let url = URL(fileURLWithPath: imagePath!)
-        do {
-            let data = try Data(contentsOf: url)
-            return UIImage(data: data)
-        } catch {
-            print(error)
+        let url = NSURL(fileURLWithPath: imagePath!)
+        let data = NSData(contentsOf: url as URL)
+        if let data = data {
+            return UIImage(data: data as Data)!
         }
         return nil
     }
